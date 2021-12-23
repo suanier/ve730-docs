@@ -33,7 +33,7 @@ jobs:
       run: |
         npm install yuque-hexo -g
         npm run start
-        find docs/* ! -name "VR-EXP*.md" -type f -print -exec rm -rf {} \;
+        find docs/* ! -name "VE730*.md" -type f -print -exec rm -rf {} \;
 
     # from https://github.com/peaceiris/actions-gh-pages    
     - name: Deploy
