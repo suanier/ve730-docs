@@ -358,7 +358,7 @@ Content-Type: application/json
 
 ### 3.2 获取维塑接口凭证
 
-#### 3.2.1 获取维塑接口凭证 id=get-token
+#### 3.2.1 获取维塑接口凭证 :id=get-token
 
 **接口描述：**
 
