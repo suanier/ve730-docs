@@ -24,14 +24,6 @@
 		3.3.3 获取围度数据
 		3.3.4 获取用户脂肪等级
 		3.3.5 获取身体评分
-	3.4 获取体态文件及数据
-		3.4.1 获取体态文件
-		3.4.2 获取体态数据
-		3.4.3 获取足底压力检测数据
-		3.4.4 获取颈部检测数据
-		3.4.5 获取髋关节检测数据
-		3.4.6 获取脊柱文件
-		3.4.7 获取脊柱数据
 	3.5 获取节段文件数据
 		3.5.1 获取节段文件
 		3.5.2 获取节段数据
@@ -57,7 +49,6 @@
 | 获取维塑接口凭证           | 第三方客户调用此接口获取维塑相关接口凭证，vfid 和 vfsecret 从维塑管理平台获取                                                                |
 | 用户信息绑定               | 第三方 app 扫描设备端二维码后，在第三方后台验证用户和设备或第三方验证 RFID（手环）用户身份通过后，调用此接口通知维塑后台服务从而发起合成请求 |
 | 体测文件数据接口           | 体测模型合成成功，第三方客户调用此接口获取体测模型和数据                                                                                     |
-| 体态文件数据接口           | 体态模型合成成功，第三方客户调用此接口获取体态模型和数据                                                                                     |
 | 节段文件接口               | 节段分布合成成功后，第三方客户调用此接口获取节段分布文件                                                                                     |
 | 体型预测接口               | 体型预测合成成功后，第三方客户调用此接口获取体型预测数据                                                                                     |
 | 返回状态码说明             | 状态码说明                                                                                                                                   |
@@ -77,7 +68,7 @@
 
 https://[域名]/[版本号]/[接口名]
 
-例：[http://api.e730.visbody.com/v1/token](http://api.e730.visbody.com/v1/token)
+例：[http://api.e730.visbody.com/v1/token](http://api.e560.visbody.com/v1/token)
 
 | 实例                    | 说明   |
 | ----------------------- | ------ |
@@ -738,505 +729,11 @@ $headers[]  =  "Authorization: Bearer ". $vfToken;
 | ------ | ---- | -------- |
 | score  | int  | 项目评分 |
 
-### 3.4 获取体态文件及数据
-
-#### 3.4.1 获取体态文件
-
-**接口描述：**
-
-- 用于获取体态模型、关键点 json 文件及体态拍照图片
-
-**请求 URL：**
-
-- `http://api.e730.visbody.com/v1/shape/file`
-
-**请求方式：**
-
-- GET
-
-**参数：**
-
-| 参数名  | 必选 | 类型   | 说明     |
-| ------- | ---- | ------ | -------- |
-| token   | 是   | string | 接口凭证 |
-| scan_id | 是   | string | 扫描 ID  |
-
-**返回示例**
-
-```
-  {
-    "code": 0,
-    "data": {
-      "model_url": "MODEL_URL",
-      "json_url": "JSON_URL",
-      "pic_front_url": "PIC_FRONT_URL",
-      "pic_back_url": "PIC_BACK_URL",
-      "pic_left_url": "PIC_LEFT_URL",
-      "pic_right_url": "PIC_RIGHT_URL",
-      "pic_top_url": "PIC_TOP_URL",
-      "expires_in": 7200
-    }
-  }
-```
-
-**返回参数说明**
-
-| 参数名        | 类型   | 说明                                                                |
-| ------------- | ------ | ------------------------------------------------------------------- |
-| model_url     | string | 体态模型文件路径，文件格式.obj                                      |
-| json_url      | string | 体态关键点 json 文件路径，文件格式.txt (用于体态模型效果关节点展示) |
-| pic_front_url | string | 体态正视图图片文件路径，文件格式.jpg                                |
-| pic_back_url  | string | 体态后视图图片文件路径，文件格式.jpg                                |
-| pic_left_url  | string | 体态左视图图片文件路径，文件格式.jpg                                |
-| pic_right_url | string | 体态右视图图片文件路径，文件格式.jpg                                |
-| pic_top_url   | string | 体态顶视图图片文件路径，文件格式.jpg                                |
-| expires_in    | int    | 文件路径有效时间（秒）                                              |
-
-#### 3.4.2 获取体态数据
-
-**接口描述：**
-
-- 用于获取体态评估身体数据
-
-**请求 URL：**
-
-- `http://api.e730.visbody.com/v1/shape/points`
-
-**请求方式：**
-
-- GET
-
-**参数：**
-
-| 参数名  | 必选 | 类型   | 说明     |
-| ------- | ---- | ------ | -------- |
-| token   | 是   | string | 接口凭证 |
-| scan_id | 是   | string | 扫描 ID  |
-
-**返回示例**
-
-```
-  {
-    "code": 0,
-    "data": {
-      "high_low_shoudler": {
-        "val": 15.96,
-        "conclusion": "高低肩(左高)",
-        "risk": "高低肩可引发颈肩部的慢性疼痛，常伴随脊柱侧弯、骨盆位移、长短腿等情况出现"
-      },
-      "head_slant": {
-        "val": 15.96,
-        "conclusion": "正常",
-        "risk": "--"
-      },
-      "head_forward": {
-        "val": 15.96,
-        "conclusion": "正常",
-        "risk": "--"
-      },
-      "leg_xo": {
-        "left_val": 184.3,
-        "right_val": 187.2,
-        "conclusion": "正常",
-        "risk": "--"
-      },
-      "pelvis_forward": {
-        "val": 15.96,
-        "conclusion": "正常",
-        "risk": "--"
-      },
-      "left_knee_check": {
-        "val": 175.4,
-        "conclusion": "正常",
-        "risk": "--"
-      },
-      "right_knee_check": {
-        "val": 187.7,
-        "conclusion": "正常",
-        "risk": "--"
-      },
-      "round_shoulder_left": {
-        "val": 15.6,
-        "conclusion": "正常",
-        "risk": "--"
-      },
-      "round_shoulder_right": {
-        "val": 15.6,
-        "conclusion": "正常",
-        "risk": "--"
-      }
-    }
-  }
-```
-
-**返回参数说明**
-
-| 参数名               | 类型   | 说明                     |
-| -------------------- | ------ | ------------------------ |
-| high_low_shoudler    | object | 高低肩 单位 cm           |
-| head_slant           | object | 头侧歪 单位 °            |
-| head_forward         | object | 头前引 单位 °            |
-| leg_xo               | object | 腿型 单位 °              |
-| pelvis_forward       | object | 骨盆前后移 单位 °        |
-| left_knee_check      | object | 左膝盖分析 单位 °        |
-| right_knee_check     | object | 右膝盖分析 单位 °        |
-| round_shoulder_left  | object | 左圆肩 单位 °            |
-| round_shoulder_right | object | 右圆肩 单位 °            |
-| val                  | double | 测量值                   |
-| left_val             | double | 左腿测量值               |
-| right_val            | double | 右腿测量值               |
-| conclusion           | string | 评估结论                 |
-| risk                 | string | 风险提示 正常则显示 "--" |
-
-#### 3.4.3 获取足底压力检测数据
-
-**接口描述：**
-
-- 用于获取足底压力检测数据
-
-**请求 URL：**
-
-- `http://api.e730.visbody.com/v1/plantar/pressure`
-
-**请求方式：**
-
-- GET
-
-**参数：**
-
-| 参数名  | 必选 | 类型   | 说明     |
-| ------- | ---- | ------ | -------- |
-| token   | 是   | string | 接口凭证 |
-| scan_id | 是   | string | 扫描 ID  |
-
-**返回示例**
-
-```
-  {
-    "code": 0,
-    "data": {
-		"left_front":15.96,
-		"left_rear":15.96,
-		"right_front":15.96,
-		"right_rear":15.96,
-		"conclusion": {
-			"left_foot": "重心偏前",
-			"right_foot": "重心偏前",
-			"front_rear": "重心偏前",
-			"left_right": "重心偏左"
-		}
-    }
-  }
-```
-
-**返回参数说明**
-
-| 参数名      | 类型   | 说明             |
-| ----------- | ------ | ---------------- |
-| left_front  | double | 左前脚掌 单位 kg |
-| left_rear   | double | 左后脚掌 单位 kg |
-| right_front | double | 右前脚掌 单位 kg |
-| right_rear  | double | 右后脚掌 单位 kg |
-| conclusion  | object | 检测结论         |
-| left_foot   | string | 左脚检测结论     |
-| right_foot  | string | 右脚检测结论     |
-| front_rear  | string | 前后重心检测结论 |
-| left_right  | string | 左右重心检测结论 |
-
-#### 3.4.4 获取颈部检测数据及结论
-
-**接口描述：**
-
-- 用于获取颈部检测数据及结论
-
-**请求 URL：**
-
-- `http://api.e730.visbody.com/v1/neck/data`
-
-**请求方式：**
-
-- GET
-
-**参数：**
-
-| 参数名  | 必选 | 类型   | 说明     |
-| ------- | ---- | ------ | -------- |
-| token   | 是   | string | 接口凭证 |
-| scan_id | 是   | string | 扫描 ID  |
-
-**返回示例**
-
-```
-  {
-    "code": 0,
-    "data": {
-		"head_forward": {
-			"val": 25.5,
-			"conclusion": "受限",
-			"limit": "[45.0°~50.0°]"
-		},
-		"head_backward": {
-			"val": 25.5,
-			"conclusion": "受限",
-			"limit": "[45.0°~50.0°]"
-		},
-		"left_bend": {
-			"val": 45.5,
-			"conclusion": "过大",
-			"limit": "[45.0°]"
-		},
-		"right_bend": {
-			"val": "--",
-			"conclusion": "--",
-			"limit": "--"
-		},
-		"left_spin": {
-			"val": 57.3,
-			"conclusion": "受限",
-			"limit": "[65.0°~75.0°]"
-		},
-		"right_spin": {
-			"val": 67.9,
-			"conclusion": "正常",
-			"limit": "[65.0°~75.0°]",
-		},
-		"conclusions": [
-			{
-				"title": "颈椎前屈、颈椎后伸、颈椎左旋转活动度受限",
-				"analysis": "颈椎活动受限，由核心稳定不足、肌肉紧张、主动肌无力等原因引起。其影响正常运动模式（导致运动损伤），以及其他生理问题（如头晕、颈椎酸痛、睡眠不足等现象），长期忽视易导致各类颈椎病的发生。",
-				"advice": "找专业人士对具体原因做进一步筛查及治疗。"
-			},
-			{
-				"title": "颈椎左侧屈活动度过大",
-				"analysis": "颈椎活动过大，由韧带松弛导致，如经常锻炼颈椎的肌肉。肌肉柔韧性高也会出现活动过大的现象。",
-				"advice": "找专业人士对具体原因做进一步筛查及治疗。"
-			}
-		]
-
-    }
-  }
-```
-
-**返回参数说明**
-
-| 参数名      | 类型   | 说明                                                        |
-| ----------- | ------ | ----------------------------------------------------------- |
-| left_front  | object | 前屈                                                        |
-| left_rear   | object | 后伸                                                        |
-| right_bend  | object | 左侧屈                                                      |
-| right_bend  | object | 右侧屈                                                      |
-| left_spin   | object | 左旋转                                                      |
-| right_spin  | object | 右旋转                                                      |
-| val         | double | 测量值 单位（°） 若本项失败则为 --                          |
-| limit       | string | 正常范围 若本项失败则为 --                                  |
-| conclusion  | string | 评估结论 若本项失败则为 --                                  |
-| conclusions | array  | 本次检测的所有结论 根据检测情况会出现单个结论或多个结论情况 |
-| title       | string | 结论标题                                                    |
-| analysis    | string | 结论分析 若所有项均正常则返回空字符串                       |
-| advice      | string | 结论建议 若所有项均正常则返回空字符串                       |
-
-#### 3.4.5 获取髋关节检测数据及结论
-
-**接口描述：**
-
-- 用于获取髋关节检测数据及结论
-
-**请求 URL：**
-
-- `http://api.e730.visbody.com/v1/hip/data`
-
-**请求方式：**
-
-- GET
-
-**参数：**
-
-| 参数名  | 必选 | 类型   | 说明     |
-| ------- | ---- | ------ | -------- |
-| token   | 是   | string | 接口凭证 |
-| scan_id | 是   | string | 扫描 ID  |
-
-**返回示例**
-
-```
-  {
-    "code": 0,
-    "data": {
-      "left_abuction": {
-        "val": 25.5,
-        "conclusion": "受限",
-        "limit": "[40/50.0°]"
-      },
-      "right_abuction": {
-        "val": 25.5,
-        "conclusion": "受限",
-        "limit": "[40/50.0°]"
-      },
-      "left_antexion": {
-        "val": 45.5,
-        "conclusion": "过大",
-        "limit": "[20/30.0°]"
-      },
-      "right_antexion": {
-        "val": "--",
-        "conclusion": "--",
-        "limit": "--"
-      },
-      "conclusions": [
-        {
-          "title": "髋外展活动度受限可能原因分析：",
-          "msg": [
-          	"骨盆不稳定或位置异常",
-            "主动肌无力",
-            "运动模式异常",
-            "拮抗肌群紧张"
-          ]
-        {
-          "title": "髋内收活动度受限可能原因分析：",
-          "msg": [
-          	"骨盆不稳定或位置异常",
-            "主动肌无力",
-            "拮抗肌群紧张"
-          ]
-        }
-      ]
-			"advise": "进一步检查"
-    }
-  }
-```
-
-**返回参数说明**
-
-| 参数名         | 类型   | 说明                                                             |
-| -------------- | ------ | ---------------------------------------------------------------- |
-| left_abuction  | object | 左髋外展                                                         |
-| right_abuction | object | 右髋外展                                                         |
-| left_antexion  | object | 左髋内收                                                         |
-| right_antexion | object | 右髋内收                                                         |
-| val            | double | 测量值 单位（°） 若本项失败则为 --                               |
-| limit          | string | 正常范围（外展 男 40 女 50，内收 男 20 女 30） 若本项失败则为 -- |
-| conclusion     | string | 评估结论 若本项失败则为 --                                       |
-| conclusions    | array  | 本次检测的所有结论 根据检测情况会出现单个结论或多个结论情况      |
-| title          | string | 结论标题                                                         |
-| msg            | string | 结论分析                                                         |
-| advice         | string | 结论建议 若所有项均正常则返回空字符串                            |
-
-#### 3.4.6 获取脊柱文件信息
-
-**接口描述：**
-
-- 用于获取脊柱模型，背面观和右侧面观的模型图片（包括脊柱、标注点和标注线）
-
-**请求 URL：**
-
-- `http://api.e730.visbody.com/v1/spine/file`
-
-**请求方式：**
-
-- GET
-
-**参数：**
-
-| 参数名  | 必选 | 类型   | 说明     |
-| ------- | ---- | ------ | -------- |
-| token   | 是   | string | 接口凭证 |
-| scan_id | 是   | string | 扫描 ID  |
-
-**返回示例**
-
-```
-  {
-    "code": 0,
-    "data": {
-      "model_url": "MODEL_URL",
-	  "pic_back_url ": "JSON_URL",
-	  "pic_right_url ": "PIC_FRONT_URL",
-      "expires_in": 7200
-    }
-  }
-```
-
-**返回参数说明**
-
-| 参数名        | 类型   | 说明                                                   |
-| ------------- | ------ | ------------------------------------------------------ |
-| model_url     | string | 脊柱模型文件路径，文件格式.obj                         |
-| pic_back_url  | string | 脊柱背面观模型、骨骼、标注点和标注线图，文件格式.jpg   |
-| pic_right_url | string | 脊柱右侧面观模型、骨骼、标注点和标注线图，文件格式.jpg |
-| expires_in    | int    | 文件路径有效时间（秒）                                 |
-
-**背面标注点说明**
-
-| 标注点 | 说明     |
-| ------ | -------- |
-| C7     | 颈椎 7   |
-| S1     | 骶骨中点 |
-| PSIS   | 骼后上棘 |
-| G      | 人体重心 |
-| EQL    | 二等分线 |
-
-**右面标注点说明**
-
-| 标注点 | 说明       |
-| ------ | ---------- |
-| C7     | 颈椎 7     |
-| S1     | 骶骨后上角 |
-| G      | 人体重心   |
-
-#### 3.4.7 获取脊柱评估结论数据
-
-**接口描述：**
-
-- 用于获取脊柱评估结论及建议
-
-**请求 URL：**
-
-- `http://api.e730.visbody.com/v1/spine/conclusion`
-
-**请求方式：**
-
-- GET
-
-**参数：**
-
-| 参数名  | 必选 | 类型   | 说明     |
-| ------- | ---- | ------ | -------- |
-| token   | 是   | string | 接口凭证 |
-| scan_id | 是   | string | 扫描 ID  |
-
-**返回示例**
-
-```
-  {
-    "code": 0,
-    "data": {
-      "spine_back ": {
-		"name": "项目名称",
-		"conclusion ": "结论",
-		"advice ": "建议"
-	  },
-	  "spine_right  ": {
-		"name": "项目名称",
-		"conclusion ": "结论",
-		"advice ": "建议"
-	  }
-    }
-  }
-```
-
-**返回参数说明**
-
-| 参数名      | 类型   | 说明       |
-| ----------- | ------ | ---------- |
-| spine_back  | string | 背面结论   |
-| spine_right | string | 右侧面结论 |
-| name        | string | 项目名     |
-| conclusion  | int    | 结论       |
-| advice      | int    | 建议       |
+###
 
 ### 3.5 获取节段文件数据
 
-### 3.5.1 获取节段文件
+#### 3.5.1 获取节段文件
 
 **接口描述：**
 
@@ -1282,7 +779,7 @@ $headers[]  =  "Authorization: Bearer ". $vfToken;
 | f_pic_url  | string | 节段脂肪分布热力图，文件格式 .jpg |
 | expires_in | int    | 文件路径有效时间                  |
 
-### 3.5.2 获取节段数据
+#### 3.5.2 获取节段数据
 
 **接口描述：**
 
@@ -1352,7 +849,7 @@ $headers[]  =  "Authorization: Bearer ". $vfToken;
 
 ### 3.6 获取体型预测文件及数据
 
-### 3.6.1 获取体型预测文件
+#### 3.6.1 获取体型预测文件
 
 **接口描述：**
 
@@ -1392,7 +889,7 @@ $headers[]  =  "Authorization: Bearer ". $vfToken;
 | model_url  | string | 体型预测模型文件，文件格式 .obj |
 | expires_in | int    | 文件路径有效时间                |
 
-### 3.6.2 获取预测调节数据
+#### 3.6.2 获取预测调节数据
 
 **接口描述：**
 
@@ -1440,9 +937,9 @@ $headers[]  =  "Authorization: Bearer ". $vfToken;
 | gr_body_fat | double | 体脂肪黄金比例 |
 | gr_muscle   | double | 肌肉黄金比例   |
 
-## 3.7 获取报告信息
+### 3.7 获取报告信息
 
-### 3.7.1 获取报告信息
+#### 3.7.1 获取报告信息
 
 **接口描述：**
 
@@ -1494,7 +991,7 @@ $headers[]  =  "Authorization: Bearer ". $vfToken;
 
 注：结论及建议包含所有测量项目，若只做单个项目则只返回单个项目结论及建议
 
-## 3.8 维塑返回状态码说明
+### 3.8 维塑返回状态码说明
 
 维塑的接口响应通过 HTTP 状态码及业务状态码区分，业务状态码在 response body 里标记
 
@@ -1512,7 +1009,7 @@ $headers[]  =  "Authorization: Bearer ". $vfToken;
 | 400         | 40008      | 无接口权限                                                          |
 | 400         | 40009      | 扫描 ID 已绑定                                                      |
 
-## 3.9 合成推送类型与接口关系说明
+### 3.9 合成推送类型与接口关系说明
 
 **描述：**
 
