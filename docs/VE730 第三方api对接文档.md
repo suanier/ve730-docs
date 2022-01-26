@@ -64,11 +64,12 @@
 
 ### 1.2 测试数据
 
-| 参数名 | 参数值                                              |
-| ------ | --------------------------------------------------- |
-| key    | vfE0ysl7UIdxKvuj                                    |
-| secret | D3zgtDndlqcs3ygJLHVeeP03DuC9lbZR                    |
-| scanid | 20041910080001-e3c39e63-9e8f-11ea-91e6-00d861a9ecd9 |
+| 参数名 | 参数值 |
+| ------ | ------ |
+| key    |        |
+| secret | ​      |
+|  |
+| scanid |        |
 
 ## 2. 接口规则
 
@@ -133,7 +134,7 @@ Content-Type: application/json
 
 - 申请 API 对接权限
 - 通过维塑管理平台 API 对接设置配置 3.1.1、3.1.3、3.1.4 接口
-- 用户刷手环后通过维塑 3.2.2 接口发起用户信息绑定及合成
+- 用户刷卡或扫码后通过维塑 3.2.2 接口发起用户信息绑定及合成
 
 ​
 
@@ -208,13 +209,12 @@ Content-Type: application/json
 
 **参数：**
 
-| 参数名    | 必选 | 类型   | 说明                             |
-| --------- | ---- | ------ | -------------------------------- |
-| card_id   | 是   | string | 卡或手环 ID                      |
-| type      | 是   | int    | 刷卡设备 1 手环或刷卡器 2 扫码枪 |
-| scan_id   | 是   | string | 扫描 ID                          |
-| device_id | 是   | string | 设备 ID                          |
-| token     | 是   | string | 第三方接口凭证                   |
+| 参数名    | 必选 | 类型   | 说明           |
+| --------- | ---- | ------ | -------------- |
+| card_id   | 是   | string | 卡或手环 ID    |
+| scan_id   | 是   | string | 扫描 ID        |
+| device_id | 是   | string | 设备 ID        |
+| token     | 是   | string | 第三方接口凭证 |
 
 **正常时返回示例**
 
@@ -223,11 +223,11 @@ Content-Type: application/json
     "code": 0,
     "data": {
       "name": "Name",
-	  "sex":1,
-	  "birthday":"2009-10-10",
-	  "height": 170,
-	  "mobile":"18700000000",
-    "type": 1
+	  	"sex":1,
+	  	"birthday":"2009-10-10",
+	  	"height": 170,
+	  	"third_uid":"id100000",
+    	"type": 1
     }
   }
 ```
@@ -251,7 +251,7 @@ Content-Type: application/json
 | sex       | int    | 性别 1 男 2 女                    |
 | birthday  | string | 生日(1990-10-10)                  |
 | height    | string | 用户身高                          |
-| mobile    | string | 用户手机号                        |
+| third_uid | string | 用户唯一标识（只支持数字+字母）   |
 | type      | int    | 对接类型 1 刷卡器，2 扫码         |
 
 #### 3.1.4 维塑推送合成通知消息 :id=notify
@@ -279,7 +279,7 @@ Content-Type: application/json
 | user_info               | 否   | object | 用户信息                                   |
 | age                     | 否   | int    | 年龄                                       |
 | birthday                | 否   | string | 生日                                       |
-| phone                   | 否   | string | 手机                                       |
+| third_uid               | 否   | string | 用户唯一标识（只支持数字+字母）            |
 | sex                     | 否   | string | f 女，m 　男                               |
 | height                  | 否   | int    | 身高                                       |
 | action_status           | 是   | object | 状态信息                                   |
@@ -386,7 +386,7 @@ Content-Type: application/json
     "code": 0,
     "data": {
       "token": "TOKEN",
-      "expires_in": 7200
+      "expires_in": 3600
     }
   }
 ```
@@ -438,16 +438,15 @@ $headers[]  =  "Authorization: Bearer ". $vfToken;
 
 **参数：**
 
-| 参数名    | 必选 | 类型   | 说明                                              |
-| --------- | ---- | ------ | ------------------------------------------------- |
-| scan_id   | 是   | string | 扫描 ID                                           |
-| device_id | 是   | string | 设备 ID                                           |
-| third_uid | 是   | string | 第三方用户唯一 Id 字母和数字 长度 8 ~ 40          |
-| mobile    | 是   | string | 手机号                                            |
-| sex       | 是   | int    | 性别 1 男 2 女                                    |
-| height    | 是   | int    | 身高  110 ~ 205 单位 cm                           |
-| birthday  | 是   | string | 生日 格式 yyyy-MM-dd 注意周岁范围需在 5 ~ 70 之间 |
-| token     | 是   | string | 接口凭证                                          |
+| 参数名    | 必选 | 类型   | 说明                                               |
+| --------- | ---- | ------ | -------------------------------------------------- |
+| scan_id   | 是   | string | 扫描 ID                                            |
+| device_id | 是   | string | 设备 ID                                            |
+| third_uid | 是   | string | 第三方用户唯一 Id 字母和数字 长度 8 ~ 40           |
+| sex       | 是   | int    | 性别 1 男 2 女                                     |
+| height    | 是   | int    | 身高  110 ~ 205 单位 cm                            |
+| birthday  | 是   | string | 生日 格式 yyyy-MM-dd 注意周岁范围需在 18 ~ 99 之间 |
+| token     | 是   | string | 接口凭证                                           |
 
 **正常时返回示例**
 
@@ -820,57 +819,52 @@ $headers[]  =  "Authorization: Bearer ". $vfToken;
   {
     "code": 0,
     "data": {
-		"high_low_shoudler": {
-			"val": 15.96,
-			"conclusion": "高低肩(左高)",
-			"risk": "高低肩可引发颈肩部的慢性疼痛，常伴随脊柱侧弯、骨盆位移、长短腿等情况出现"
-		},
-		"head_slant": {
-			"val": 15.96,
-			"conclusion": "正常",
-			"risk": "--"
-		},
-		"head_forward": {
-			"val": 15.96,
-			"conclusion": "正常",
-			"risk": "--"
-		},
-		"leg_xo": {
-			"left_val": 184.3,
-			"right_val": 187.2,
-			"conclusion": "正常",
-			"risk": "--"
-		},
-		"pelvis_forward": {
-			"val": 15.96,
-			"conclusion": "正常",
-			"risk": "--"
-		},
-		"left_knee_check": {
-			"val": 175.4,
-			"conclusion": "正常",
-			"risk": "--"
-		},
-		"right_knee_check": {
-			"val": 187.7,
-			"conclusion": "正常",
-			"risk": "--"
-		},
-		"round_shoulder_left": {
-			"val": 15.6,
-			"conclusion": "正常",
-			"risk": "--"
-		},
-		"round_shoulder_right": {
-			"val": 15.6,
-			"conclusion": "正常",
-			"risk": "--"
-		},
-		"body_slope": {
-			"val": 0,
-			"conclusion": "正常",
-			"risk": "--"
-		}
+      "high_low_shoudler": {
+        "val": 15.96,
+        "conclusion": "高低肩(左高)",
+        "risk": "高低肩可引发颈肩部的慢性疼痛，常伴随脊柱侧弯、骨盆位移、长短腿等情况出现"
+      },
+      "head_slant": {
+        "val": 15.96,
+        "conclusion": "正常",
+        "risk": "--"
+      },
+      "head_forward": {
+        "val": 15.96,
+        "conclusion": "正常",
+        "risk": "--"
+      },
+      "leg_xo": {
+        "left_val": 184.3,
+        "right_val": 187.2,
+        "conclusion": "正常",
+        "risk": "--"
+      },
+      "pelvis_forward": {
+        "val": 15.96,
+        "conclusion": "正常",
+        "risk": "--"
+      },
+      "left_knee_check": {
+        "val": 175.4,
+        "conclusion": "正常",
+        "risk": "--"
+      },
+      "right_knee_check": {
+        "val": 187.7,
+        "conclusion": "正常",
+        "risk": "--"
+      },
+      "round_shoulder_left": {
+        "val": 15.6,
+        "conclusion": "正常",
+        "risk": "--"
+      },
+      "round_shoulder_right": {
+        "val": 15.6,
+        "conclusion": "正常",
+        "risk": "--"
+      }
     }
   }
 ```
@@ -888,7 +882,6 @@ $headers[]  =  "Authorization: Bearer ". $vfToken;
 | right_knee_check     | object | 右膝盖分析 单位 °        |
 | round_shoulder_left  | object | 左圆肩 单位 °            |
 | round_shoulder_right | object | 右圆肩 单位 °            |
-| body_slope           | object | 身体倾斜 单位 °          |
 | val                  | double | 测量值                   |
 | left_val             | double | 左腿测量值               |
 | right_val            | double | 右腿测量值               |
@@ -1114,19 +1107,19 @@ $headers[]  =  "Authorization: Bearer ". $vfToken;
 
 **返回参数说明**
 
-| 参数名         | 类型   | 说明                                                        |
-| -------------- | ------ | ----------------------------------------------------------- |
-| left_abuction  | object | 左髋外展                                                    |
-| right_abuction | object | 右髋外展                                                    |
-| left_antexion  | object | 左髋内收                                                    |
-| right_antexion | object | 右髋内收                                                    |
-| val            | double | 测量值 单位（°） 若本项失败则为 --                          |
-| limit          | string | 正常范围 若本项失败则为 --                                  |
-| conclusion     | string | 评估结论 若本项失败则为 --                                  |
-| conclusions    | array  | 本次检测的所有结论 根据检测情况会出现单个结论或多个结论情况 |
-| title          | string | 结论标题                                                    |
-| msg            | string | 结论分析                                                    |
-| advice         | string | 结论建议 若所有项均正常则返回空字符串                       |
+| 参数名         | 类型   | 说明                                                             |
+| -------------- | ------ | ---------------------------------------------------------------- |
+| left_abuction  | object | 左髋外展                                                         |
+| right_abuction | object | 右髋外展                                                         |
+| left_antexion  | object | 左髋内收                                                         |
+| right_antexion | object | 右髋内收                                                         |
+| val            | double | 测量值 单位（°） 若本项失败则为 --                               |
+| limit          | string | 正常范围（外展 男 40 女 50，内收 男 20 女 30） 若本项失败则为 -- |
+| conclusion     | string | 评估结论 若本项失败则为 --                                       |
+| conclusions    | array  | 本次检测的所有结论 根据检测情况会出现单个结论或多个结论情况      |
+| title          | string | 结论标题                                                         |
+| msg            | string | 结论分析                                                         |
+| advice         | string | 结论建议 若所有项均正常则返回空字符串                            |
 
 #### 3.4.6 获取脊柱文件信息
 
@@ -1532,19 +1525,19 @@ $headers[]  =  "Authorization: Bearer ". $vfToken;
 | 身体成分测量 | bia_status、measure_status、tchar_status、bodypredict_status |
 | 静态体态测量 | eval_status                                                  |
 | 颈部功能测量 | eval_dynamic_status                                          |
-| 肩部功能测量 | eval_shoulder_status                                         |
+| 髋关节测量   | eval_dynamic_hip_status                                      |
 
 **合成推送类型与接口关系如下：**
 
-| 合成推送项目         | 说明     | 可访问接口                 |
-| -------------------- | -------- | -------------------------- |
-| measure_status       | 体测     | 3.3.1、3.3.3               |
-| eval_status          | 体态     | 3.3.5、3.4.1、3.4.2、3.4.3 |
-| tchar_status         | 节段分布 | 3.5.1、3.5.2               |
-| bodypredict_status   | 体型预测 | 3.6.1、3.6.2               |
-| bia_status           | 体成分   | 3.3.2、3.3.4、3.3.5        |
-| eval_dynamic_status  | 颈部检测 | 3.4.4                      |
-| eval_shoulder_status | 肩部检测 | 3.4.5                      |
+| 合成推送项目            | 说明       | 可访问接口                 |
+| ----------------------- | ---------- | -------------------------- |
+| measure_status          | 体测       | 3.3.1、3.3.3               |
+| eval_status             | 体态       | 3.3.5、3.4.1、3.4.2、3.4.3 |
+| tchar_status            | 节段分布   | 3.5.1、3.5.2               |
+| bodypredict_status      | 体型预测   | 3.6.1、3.6.2               |
+| bia_status              | 体成分     | 3.3.2、3.3.4、3.3.5        |
+| eval_dynamic_status     | 颈部测量   | 3.4.4                      |
+| eval_dynamic_hip_status | 髋关节测量 | 3.4.5                      |
 
 ** 3.7.1 接口特别说明：**
 报告信息接口，需要所测量项目中至少有一项合成成功
