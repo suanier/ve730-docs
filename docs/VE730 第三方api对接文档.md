@@ -76,7 +76,7 @@
 
 https://[域名]/[版本号]/[接口名]
 
-例：[http://api.e730.visbody.com/v1/token](http://api.e560.visbody.com/v1/token)
+例：[http://api.e730.visbody.com/v1/token](http://api.e730.visbody.com/v1/token)
 
 | 实例                    | 说明   |
 | ----------------------- | ------ |
