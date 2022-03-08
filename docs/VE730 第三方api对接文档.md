@@ -58,7 +58,7 @@
 | 参数名 | 参数值 |
 | ------ | ------ |
 | key    |        |
-| secret | ​      |
+| secret |
 |  |
 | scanid |        |
 
@@ -104,7 +104,6 @@ Content-Type: application/json
 **使用说明：**
 可通过维塑提供的 API 接口获取用户测量数据。
 对接成功后维塑会通过客户配置的 3.1.4 接口推送扫描 ID 等相关信息，客户根据测量项目结果访问对应接口获取数据，合成推送类型与接口关系见 3.9 说明
-​
 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/287793/1640066017083-b740cc34-8a86-4cac-95a0-b302d6629653.png#clientId=u75d3ec2c-c5ba-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=1489&id=ue696885c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1489&originWidth=1974&originalType=binary&ratio=1&rotation=0&showTitle=false&size=143835&status=done&style=none&taskId=u197b4dc4-2111-4320-bbcc-865343e9084&title=&width=1974)
 
@@ -117,7 +116,6 @@ Content-Type: application/json
 
 **使用说明： **
 设备添加刷卡器或扫码器，可通过刷卡或扫码代替手机扫码动作，需客户自行开发刷卡或扫码的业务逻辑
-​
 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/287793/1640066101453-1b677bb1-a639-47d2-a2f3-a340608276d0.png#clientId=u75d3ec2c-c5ba-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=855&id=u3751c322&margin=%5Bobject%20Object%5D&name=image.png&originHeight=855&originWidth=1136&originalType=binary&ratio=1&rotation=0&showTitle=false&size=127005&status=done&style=none&taskId=ua9a87d7d-65a4-4933-b3e3-4d65f71a23a&title=&width=1136)
 
@@ -126,8 +124,6 @@ Content-Type: application/json
 - 申请 API 对接权限
 - 通过维塑管理平台 API 对接设置配置 3.1.1、3.1.3、3.1.4 接口
 - 用户刷卡或扫码后通过维塑 3.2.2 接口发起用户信息绑定及合成
-
-​
 
 #### 3.1.1 第三方接口凭证获取 :id=third-token
 
